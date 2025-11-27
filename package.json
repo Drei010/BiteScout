@@ -4,6 +4,7 @@
   "type": "module",
   "main": "index.js",
   "dependencies": {
+    "@api/fsq-developers-places": "file:.api/apis/fsq-developers-places",
     "accepts": "^2.0.0",
     "acorn": "^8.15.0",
     "acorn-walk": "^8.3.4",
