@@ -1,9 +1,10 @@
-import axios from "axios";
 import dotenv from "dotenv";
-
+import OpenAI from "openai";
 dotenv.config();
 
-const SYSTEM_PROMPT = `
+const client = new OpenAI();
+
+const context = `
 You are a JSON converter for restaurant search requests. Your ONLY job is to convert natural language into valid JSON.
 
 Required JSON structure:
@@ -37,3 +38,35 @@ Output: {"action":"restaurant_search","parameters":{"query":"Itallian","near":"B
 
 Now convert the following user request into JSON:
 `;
+
+// Send a POST request
+const convertToJSON = async (userInput: string) => {
+  const openaiResponse = await client.responses.create(
+    {
+      model: "gpt-4o",
+      input: [
+        {
+          role: "system",
+          content: context,
+        },
+        {
+          role: "user",
+          content: userInput,
+        },
+      ],
+      temperature: 0.7,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+    }
+  );
+  try {
+    const response = openaiResponse.output_text;
+    return JSON.parse(response);
+  } catch (error) {
+    throw new Error("Failed to parse JSON from LLM response");
+  }
+};
+export default convertToJSON;
