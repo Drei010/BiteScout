@@ -1,6 +1,4 @@
 import type { Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
-dotenv.config();
 
 const validateInputParams = async (
   req: Request,
@@ -29,9 +27,9 @@ const authenticateUser = async (
   next: NextFunction
 ) => {
   const code = req.query.code as string;
-
-  if (code != process.env.ACCESS_CODE) {
-    res.status(400).json({
+  const accessCode = process.env.ACCESS_CODE;
+  if (code !== accessCode) {
+    res.status(401).json({
       Error: "The provided code  is not correct.",
     });
     return;

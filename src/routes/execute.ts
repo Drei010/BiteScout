@@ -1,8 +1,11 @@
-import express from "express";
+import type { Express } from "express";
 import convertToJSON from "../services/llm.service.js";
 import validation from "../utils/validation.js";
-const app = express();
+
 const { validateInputParams, authenticateUser } = validation;
+
+
+export default function setupRoutes(app: Express) {
 app.get("/", (req, res) => {
   res.send("Restaurant Finder AI Server is running");
 });
@@ -28,5 +31,5 @@ app.get(
     }
   }
 );
+}
 
-export default app;
