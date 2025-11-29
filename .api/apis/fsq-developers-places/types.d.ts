@@ -1,6 +1,5 @@
 import type { FromSchema } from 'json-schema-to-ts';
 import * as schemas from './schemas';
-
 export type AutocompleteMetadataParam = FromSchema<typeof schemas.Autocomplete.metadata>;
 export type AutocompleteResponse200 = FromSchema<typeof schemas.Autocomplete.response['200']>;
 export type GeotaggingCandidatesMetadataParam = FromSchema<typeof schemas.GeotaggingCandidates.metadata>;
