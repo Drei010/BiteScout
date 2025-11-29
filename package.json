@@ -2,7 +2,7 @@
   "name": "restaurant-finder-ai",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "@api/fsq-developers-places": "file:.api/apis/fsq-developers-places",
     "accepts": "^2.0.0",
