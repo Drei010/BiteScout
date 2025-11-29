@@ -6,11 +6,10 @@ app.get("/", (req, res) => {
   res.send("Restaurant Finder AI Server is running");
 });
 
-app.post("/testing", async (req, res) => {
+app.get("/api/execute", async (req, res) => {
   try {
-    const data = await convertToJSON(
-      "Find me a cheap sushi restaurant in downtown Los Angeles that's open now"
-    );
+    const message = req.query.message as string;
+    const data = await convertToJSON(message);
     res.json(data);
   } catch (error) {
     console.error("Error fetching LLM response:", error);
