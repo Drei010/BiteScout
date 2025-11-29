@@ -1,11 +1,12 @@
 import app from "./routes/execute.js";
 
-const PORT = process.env.PORT || 3000;
-
+// Only start the server if not in a serverless environment
 if (process.env.NODE_ENV === "development") {
-  console.log("Running in development mode");
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default app;
