@@ -1,6 +1,5 @@
 import fsqDevelopersPlaces from "@api/fsq-developers-places";
-import dotenv from "dotenv";
-dotenv.config();
+
 type PlaceSearchData = {
   action: string;
   parameters: {
@@ -29,7 +28,7 @@ const callPlaceSearch = async (data: PlaceSearchData) => {
   console.log("params", params);
   try {
     const apiKey = process.env.FOURSQUARE_API_KEY || "";
-    fsqDevelopersPlaces.auth(apiKey);
+    await fsqDevelopersPlaces.auth(apiKey);
     const { data } = await fsqDevelopersPlaces.placeSearch(params);
     return data;
   } catch (error) {

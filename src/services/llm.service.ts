@@ -1,9 +1,10 @@
-import dotenv from "dotenv";
 import OpenAI from "openai";
-dotenv.config();
 
-const client = new OpenAI();
+const apiKey = process.env.OPENAI_API_KEY;
 
+const client = new OpenAI({
+  apiKey: apiKey,
+});
 const context = `
 You are a JSON converter for restaurant search requests. Your ONLY job is to convert natural language into valid JSON.
 
@@ -40,27 +41,20 @@ Now convert the following user request into JSON:
 `;
 
 const convertToJSON = async (userInput: string) => {
-  const openaiResponse = await client.responses.create(
-    {
-      model: "gpt-4o",
-      input: [
-        {
-          role: "system",
-          content: context,
-        },
-        {
-          role: "user",
-          content: userInput,
-        },
-      ],
-      temperature: 0.7,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+  const openaiResponse = await client.responses.create({
+    model: "gpt-4o",
+    input: [
+      {
+        role: "system",
+        content: context,
       },
-    }
-  );
+      {
+        role: "user",
+        content: userInput,
+      },
+    ],
+    temperature: 0.7,
+  });
   try {
     const response = openaiResponse.output_text;
     return JSON.parse(response);

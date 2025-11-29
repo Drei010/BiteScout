@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
-
+import "./utils/env.js";
+import "./services/llm.service.js";
+import "./services/foursquare.service.js";
 import express from "express";
 import executeRoutes from "./routes/execute.js";
 
