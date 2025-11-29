@@ -39,7 +39,6 @@ Output: {"action":"restaurant_search","parameters":{"query":"Itallian","near":"B
 Now convert the following user request into JSON:
 `;
 
-// Send a POST request
 const convertToJSON = async (userInput: string) => {
   const openaiResponse = await client.responses.create(
     {
