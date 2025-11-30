@@ -59,7 +59,7 @@ const convertToJSON = async (userInput: string) => {
     const response = openaiResponse.output_text;
     return JSON.parse(response);
   } catch (error) {
-    throw new Error("Failed to parse JSON from LLM response");
+    throw new Error("Failed to call LLM provider");
   }
 };
 export default convertToJSON;
