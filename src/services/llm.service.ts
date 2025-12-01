@@ -58,8 +58,9 @@ const convertToJSON = async (userInput: string) => {
   try {
     const response = openaiResponse.output_text;
     return JSON.parse(response);
-  } catch (error) {
-    throw new Error("Failed to call LLM provider");
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to call LLM provider: ${errorMessage}`);
   }
 };
 export default convertToJSON;

@@ -14,6 +14,7 @@ type PlaceSearchData = {
 interface PlaceSearchParams {
   query: string;
   near: string;
+  fields: string;
   "X-Places-Api-Version": string;
   open_now?: boolean;
   min_price?: number;
@@ -24,6 +25,7 @@ const callPlaceSearch = async (data: PlaceSearchData) => {
   const params: PlaceSearchParams = {
     query,
     near,
+    fields: "name,location,categories",
     "X-Places-Api-Version": "2025-06-17",
   };
 
@@ -37,11 +39,31 @@ const callPlaceSearch = async (data: PlaceSearchData) => {
 
   try {
     await fsqDevelopersPlaces.auth(apiKey);
-    const { responseData } = await fsqDevelopersPlaces.placeSearch(params);
-    return responseData;
-  } catch (error) {
-    throw new Error("Failed to call foursquare Places API");
+    const responseData = await fsqDevelopersPlaces.placeSearch(params);
+
+    return await callPlaceSearchSpecific(responseData);
+
+    //raw response data
+    // return responseData;
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to call foursquare Places API: ${errorMessage}`);
   }
 };
 
+const callPlaceSearchSpecific = async (responseData: any) => {
+  const results = responseData.data.results.map((place: any) => ({
+    name: place.name,
+    categories: place.categories?.map((cat: any) => cat.name).join(", "),
+    address: place.location?.formatted_address,
+  }));
+
+  results.forEach((place: any) => {
+    console.log("Name:", place.name);
+    console.log("Categories:", place.categories);
+    console.log("Address:", place.address);
+    console.log("--------");
+  });
+  return results;
+};
 export default callPlaceSearch;
