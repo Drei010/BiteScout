@@ -1,18 +1,10 @@
 import validation from "../utils/validation.js";
-import type { PlaceSearchData } from "../types/index.js";
+import type { PlaceSearchData, PlaceSearchParams } from "../types/index.js";
 import fsqDevelopersPlacesModule from "@api/fsq-developers-places";
+
 const fsqDevelopersPlaces = (fsqDevelopersPlacesModule as any).default;
 const apiKey = process.env.FOURSQUARE_API_KEY;
 const { validateLLMOutput } = validation;
-
-interface PlaceSearchParams {
-  query: string;
-  near: string;
-  fields: string;
-  "X-Places-Api-Version": string;
-  open_now?: boolean;
-  min_price?: number;
-}
 
 const callPlaceSearch = async (data: PlaceSearchData) => {
   const validationError = validateLLMOutput(data);
@@ -26,14 +18,19 @@ const callPlaceSearch = async (data: PlaceSearchData) => {
     near,
     fields: "name,location,categories",
     "X-Places-Api-Version": "2025-06-17",
-    ...(open_now !== undefined && { open_now }),
-    ...(min_price !== undefined && { min_price }),
+    ...(open_now !== null && { open_now }),
+    ...(min_price !== null && { min_price }),
   };
 
   try {
     await fsqDevelopersPlaces.auth(apiKey);
     const responseData = await fsqDevelopersPlaces.placeSearch(params);
-
+    if (responseData.data.results.length === 0) {
+      return {
+        message:
+          "Sorry there are currently no available restaurants at that location",
+      };
+    }
     return await callPlaceSearchSpecific(responseData);
 
     //raw response data

@@ -23,7 +23,10 @@ export default function setupRoutes(app: Express) {
         const apiResult = await callPlaceSearch(llmResult);
         res.json(apiResult);
       } catch (error) {
-        console.error("Error fetching response:", error instanceof Error ? error.message : "Unknown error");
+        console.error(
+          "Error fetching response:",
+          error instanceof Error ? error.message : "Unknown error"
+        );
         res.status(500).json({
           error: "InternalServerError",
           message: "Unable to retrieve location data. Please try again later.",
