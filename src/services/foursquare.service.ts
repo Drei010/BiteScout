@@ -1,15 +1,9 @@
+import validation from "../utils/validation.js";
+import type { PlaceSearchData } from "../types/index.js";
 import fsqDevelopersPlacesModule from "@api/fsq-developers-places";
 const fsqDevelopersPlaces = (fsqDevelopersPlacesModule as any).default;
 const apiKey = process.env.FOURSQUARE_API_KEY;
-type PlaceSearchData = {
-  action: string;
-  parameters: {
-    query: string;
-    near: string;
-    min_price?: number;
-    open_now?: boolean;
-  };
-};
+const { validateLLMOutput } = validation;
 
 interface PlaceSearchParams {
   query: string;
@@ -21,21 +15,20 @@ interface PlaceSearchParams {
 }
 
 const callPlaceSearch = async (data: PlaceSearchData) => {
+  const validationError = validateLLMOutput(data);
+  if (validationError) {
+    throw new Error(validationError.message);
+  }
+
   const { query, min_price, open_now, near } = data.parameters;
   const params: PlaceSearchParams = {
     query,
     near,
     fields: "name,location,categories",
     "X-Places-Api-Version": "2025-06-17",
+    ...(open_now !== undefined && { open_now }),
+    ...(min_price !== undefined && { min_price }),
   };
-
-  if (open_now !== null && open_now !== undefined) {
-    params.open_now = open_now;
-  }
-
-  if (min_price !== null && min_price !== undefined) {
-    params.min_price = min_price;
-  }
 
   try {
     await fsqDevelopersPlaces.auth(apiKey);

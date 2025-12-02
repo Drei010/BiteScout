@@ -19,13 +19,14 @@ export default function setupRoutes(app: Express) {
       try {
         const message = req.query.message as string;
         const llmResult = await convertToJSON(message);
+        console.log("LLM Result:", llmResult);
         const apiResult = await callPlaceSearch(llmResult);
         res.json(apiResult);
       } catch (error) {
-        console.error("Error fetching response:", error);
+        console.error("Error fetching response:", error instanceof Error ? error.message : "Unknown error");
         res.status(500).json({
           error: "InternalServerError",
-          message: error instanceof Error ? error.message : "Unknown error",
+          message: "Unable to retrieve location data. Please try again later.",
         } as ErrorResponse);
       }
     }

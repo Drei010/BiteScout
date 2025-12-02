@@ -1,3 +1,4 @@
+import type { PlaceSearchData } from "../types/index.js";
 import type { Request, Response, NextFunction } from "express";
 import type { ErrorResponse } from "../types/index.js";
 
@@ -40,4 +41,71 @@ const authenticateUser = async (
   }
   next();
 };
-export default { validateInputParams, authenticateUser };
+
+const validateLLMOutput = (data: PlaceSearchData): ErrorResponse | null => {
+  const { action, parameters } = data;
+
+ if (!action) {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response missing required field: action',
+    };
+  }
+  
+  if (typeof action !== 'string' || action.trim() === '') {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response has invalid action: must be a non-empty string',
+    };
+  }
+  
+  if (!parameters) {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response missing required field: parameters',
+    };
+  }
+  
+  if (typeof parameters !== 'object' || Array.isArray(parameters)) {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response has invalid parameters: must be an object',
+    };
+  }
+  
+  const { query, near, min_price, open_now } = parameters;
+  
+  if (!query || typeof query !== 'string' || query.trim() === '') {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response missing or has invalid parameter: query (must be a non-empty string)',
+    };
+  }
+  
+  if (!near || typeof near !== 'string' || near.trim() === '') {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response missing or has invalid parameter: near (must be a non-empty string)',
+    };
+  }
+  
+  if (min_price !== undefined) {
+    if (typeof min_price !== 'number' || min_price < 0) {
+      return {
+        error: 'LLM output validation failed',
+        message: 'LLM response has invalid parameter: min_price (must be a non-negative number)',
+      };
+    }
+  }
+  
+  if (open_now !== undefined && typeof open_now !== 'boolean') {
+    return {
+      error: 'LLM output validation failed',
+      message: 'LLM response has invalid parameter: open_now (must be a boolean)',
+    };
+  }
+  console.log("LLM output validation passed");
+  return null;
+};
+
+export default { validateInputParams, validateLLMOutput, authenticateUser };
