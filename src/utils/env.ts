@@ -13,6 +13,7 @@ if (fs.existsSync(envPath)) {
 const requiredEnvVars = [
   "FOURSQUARE_API_KEY",
   "OPENAI_API_KEY",
+  "GROQ_API_KEY",
   "ACCESS_CODE",
 ];
 

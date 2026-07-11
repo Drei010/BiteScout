@@ -1,10 +1,18 @@
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { placeSearchDataSchema } from "../types/index.js";
-const apiKey = process.env.OPENAI_API_KEY;
+import type { PlaceSearchData } from "../types/index.js";
 
-const client = new OpenAI({
-  apiKey: apiKey,
+const OPENAI_MODEL = "gpt-4o-2024-08-06";
+const GROQ_MODEL = "openai/gpt-oss-120b";
+
+const openaiClient = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, 
+});
+
+const groqClient = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1",
 });
 
 const context = `
@@ -25,9 +33,13 @@ User: "Show me expensive Itallian restaurants in BGC Taguig"
 Output: {"action":"restaurant_search","parameters":{"query":"Itallian","near":"BGC Taguig","price":"4"}}
 `;
 
-const convertToJSON = async (userInput: string) => {
-  const openaiResponse = await client.responses.parse({
-    model: "gpt-4o-2024-08-06",
+const callProvider = async (
+  client: OpenAI,
+  model: string,
+  userInput: string
+): Promise<PlaceSearchData> => {
+  const response = await client.responses.parse({
+    model,
     input: [
       {
         role: "system",
@@ -42,15 +54,34 @@ const convertToJSON = async (userInput: string) => {
       format: zodTextFormat(placeSearchDataSchema, "restaurant_search"),
     },
   });
+
+  const parsed = response.output_parsed;
+  if (!parsed) {
+    throw new Error("LLM returned no parsed output");
+  }
+  return parsed;
+};
+
+const convertToJSON = async (userInput: string): Promise<PlaceSearchData> => {
   try {
-    const response = openaiResponse.output_parsed;
-    if (!response) {
-      throw new Error("LLM returned no parsed output");
+    return await callProvider(openaiClient, OPENAI_MODEL, userInput);
+  } catch (openaiError: unknown) {
+    const openaiMessage =
+      openaiError instanceof Error ? openaiError.message : String(openaiError);
+    console.warn(
+      `OpenAI failed, falling back to Groq: ${openaiMessage}`
+    );
+
+    try {
+      return await callProvider(groqClient, GROQ_MODEL, userInput);
+    } catch (groqError: unknown) {
+      const groqMessage =
+        groqError instanceof Error ? groqError.message : String(groqError);
+      throw new Error(
+        `All LLM providers failed. OpenAI: ${openaiMessage} | Groq: ${groqMessage}`
+      );
     }
-    return response;
-  } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to call LLM provider: ${errorMessage}`);
   }
 };
+
 export default convertToJSON;
