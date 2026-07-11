@@ -119,3 +119,23 @@ Results will appear in the chat with restaurant names, categories, and addresses
 - **Port conflict** → Change `PORT` in `.env` (backend) or edit the `--port` flag in `frontend/package.json` (frontend)
 - **Frontend can't reach backend** → Ensure `BACKEND_URL` in `.env` matches the backend's actual port
 - **Access denied errors** → Ensure `ACCESS_CODE` is set in the root `.env`
+
+## Deploying to Vercel
+
+This project deploys as a single Vercel project (monorepo). The backend runs as a serverless function under `/restaurantfinder` and the frontend is served at the root.
+
+### Environment Variables (set in Vercel Dashboard)
+
+| Variable | Value |
+|----------|-------|
+| `BACKEND_URL` | `https://bitescout-frontend.vercel.app/restaurantfinder` |
+| `FOURSQUARE_API_KEY` | Your Foursquare API key |
+| `OPENAI_API_KEY` | Your OpenAI API key |
+| `GROQ_API_KEY` | Your Groq API key |
+| `ACCESS_CODE` | Your access code |
+
+### How it works
+
+- Requests to `/restaurantfinder/*` are routed to the Express backend (`src/index.ts`)
+- All other requests are served by the Next.js frontend (`frontend/`)
+- The frontend's `/api/search` route proxies to the backend using `BACKEND_URL`

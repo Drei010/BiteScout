@@ -5,17 +5,19 @@ import express from "express";
 import executeRoutes from "./routes/execute.js";
 
 const app = express();
+
 executeRoutes(app);
 
-// Only start the server if not in a serverless environment
+const basePath = "/restaurantfinder";
+const baseApp = express();
+baseApp.use(basePath, app);
+
 if (process.env.NODE_ENV === "development") {
   const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
-}else{
-  console.log("Running in production mode - server not started");
 }
 
-export default app;
+export default baseApp;
