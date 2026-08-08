@@ -35,6 +35,7 @@ export function useChatHistory() {
 
   useEffect(() => {
     const stored = loadMessagesFromStorage();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate persisted client state after SSR
     setMessages(stored);
     setIsHydrated(true);
   }, []);

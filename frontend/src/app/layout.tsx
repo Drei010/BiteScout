@@ -1,16 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "BiteScout",
-  description:
-    "Find restaurants near you using natural language. Powered by AI.",
+  title: "BiteScout — Find your next bite",
+  description: "Turn a craving into a shortlist of places worth leaving the house for.",
 };
 
 export const viewport: Viewport = {
@@ -25,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} h-full`}>
-      <body className="h-full font-sans antialiased">{children}</body>
+    <html lang="en" className="h-full">
+      <body className="h-full antialiased">{children}</body>
     </html>
   );
 }
