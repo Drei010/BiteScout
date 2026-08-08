@@ -26,11 +26,11 @@ Rules:
 
 Examples:
 User: "Find me a cheap sushi restaurant in downtown Los Angeles that's open now"
-Output: {"action":"restaurant_search","parameters":{"query":"sushi","near":"downtown Los Angeles","price":"1","open_now":true}}
-User: "I want pizza in Syndey"
-Output: {"action":"restaurant_search","parameters":{"query":"pizza","near":"Syndey"}}
+Output: {"action":"restaurant_search","parameters":{"query":"sushi","near":"downtown Los Angeles","min_price":1,"open_now":true}}
+User: "I want pizza in Sydney"
+Output: {"action":"restaurant_search","parameters":{"query":"pizza","near":"Sydney"}}
 User: "Show me expensive Itallian restaurants in BGC Taguig"
-Output: {"action":"restaurant_search","parameters":{"query":"Itallian","near":"BGC Taguig","price":"4"}}
+Output: {"action":"restaurant_search","parameters":{"query":"Italian","near":"BGC Taguig","min_price":4}}
 `;
 
 const callProvider = async (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type { ChatMessage } from "./types";
+import type { ChatMessage, RestaurantResult } from "./types";
 
 const STORAGE_KEY = "bitescout-chat-history";
 
@@ -9,7 +9,7 @@ const WELCOME_MESSAGE: ChatMessage = {
   id: "welcome",
   role: "assistant",
   content:
-    "Hi! I'm BiteScout 🍽️ Tell me what kind of restaurant you're looking for and where. For example: \"Find me cheap sushi in downtown Los Angeles\"",
+    "Hi! I'm BiteScout. Tell me what kind of restaurant you're looking for and where. For example: \"Find me cheap sushi in downtown Los Angeles\"",
   timestamp: Date.now(),
 };
 
@@ -51,12 +51,13 @@ export function useChatHistory() {
   }, [messages, isHydrated]);
 
   const addMessage = useCallback(
-    (role: ChatMessage["role"], content: string) => {
+    (role: ChatMessage["role"], content: string, results?: RestaurantResult[]) => {
       const message: ChatMessage = {
         id: crypto.randomUUID(),
         role,
         content,
         timestamp: Date.now(),
+        ...(results ? { results } : {}),
       };
       setMessages((prev) => [...prev, message]);
       return message;

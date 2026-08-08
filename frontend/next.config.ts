@@ -9,10 +9,6 @@ if (fs.existsSync(envPath)) {
 }
 
 const nextConfig: NextConfig = {
-  env: {
-    BACKEND_URL: process.env.BACKEND_URL,
-    ACCESS_CODE: process.env.ACCESS_CODE,
-  },
 };
 
 export default nextConfig;

@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { RestaurantResult, SearchResponse } from "@/lib/types";
+import { Chat } from "@/components/chat";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,7 +61,6 @@ const ingredients: Ingredient[] = [
   },
 ];
 
-const initialQuery = "best burgers near Makati";
 const marqueeSlogans = [
   "Good food is closer than you think",
   "Follow the craving",
@@ -88,12 +87,6 @@ function Burger({
       />
     </div>
   );
-}
-
-function formatResults(data: SearchResponse) {
-  if ("error" in data) return data.error;
-  if ("message" in data) return data.message;
-  return (data as RestaurantResult[]).map((result) => result.name).join(" · ");
 }
 
 function BurgerReveal() {
@@ -160,53 +153,6 @@ function BurgerReveal() {
         <div className="reveal-endpoint endpoint-end">every layer matters</div>
       </div>
     </section>
-  );
-}
-
-function Finder() {
-  const [query, setQuery] = useState(initialQuery);
-  const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const trimmed = query.trim();
-    if (!trimmed || loading) return;
-
-    setLoading(true);
-    setResult("");
-    try {
-      const response = await fetch("/api/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
-      });
-      setResult(formatResults((await response.json()) as SearchResponse));
-    } catch {
-      setResult("The scout is offline. Start the backend and try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <div className="finder-card">
-      <div>
-        <p className="eyebrow">Ready when you are</p>
-        <h2>Tell us what sounds good.</h2>
-      </div>
-      <form className="finder-form" onSubmit={handleSubmit}>
-        <label className="sr-only" htmlFor="restaurant-search">Search for a restaurant</label>
-        <input
-          id="restaurant-search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Try “late-night burgers in Makati”"
-        />
-        <button type="submit" disabled={loading}>{loading ? "Searching" : "Scout spots"}</button>
-      </form>
-      {result && <p className="finder-result" aria-live="polite">{result}</p>}
-    </div>
   );
 }
 
@@ -354,10 +300,12 @@ export default function Home() {
 
       <section className="finder-section" id="finder">
         <div className="finder-intro">
-          <p className="eyebrow">The next move</p>
-          <h2>Make tonight<br /><em>worth remembering.</em></h2>
+          <p className="eyebrow">Natural language in. Shortlist out.</p>
+          <h2>Turn a craving<br /><em>into a plan.</em></h2>
+          <p className="finder-description">Tell BiteScout what you want, where you want it, and how the night should feel. The scout handles the search.</p>
+          <p className="finder-signal"><span aria-hidden="true" />Cuisine, place, price, and open-now preferences are all fair game.</p>
         </div>
-        <Finder />
+        <Chat />
       </section>
 
       <footer className="site-footer">

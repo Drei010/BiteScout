@@ -43,9 +43,9 @@ const callPlaceSearch = async (data: PlaceSearchData) => {
 
 const callPlaceSearchSpecific = async (responseData: any) => {
   const results = responseData.data.results.map((place: any) => ({
-    name: place.name,
-    categories: place.categories?.map((cat: any) => cat.name).join(", "),
-    address: place.location?.formatted_address,
+    name: place.name || "Unnamed restaurant",
+    categories: place.categories?.map((cat: any) => cat.name).filter(Boolean).join(", ") || "Restaurant",
+    address: place.location?.formatted_address || "Address unavailable",
   }));
 
   results.forEach((place: any) => {
