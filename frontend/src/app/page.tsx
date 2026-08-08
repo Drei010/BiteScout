@@ -15,6 +15,7 @@ type Ingredient = {
   note: string;
   detail: string;
   color: string;
+  image: string;
 };
 
 const ingredients: Ingredient[] = [
@@ -24,6 +25,7 @@ const ingredients: Ingredient[] = [
     note: "Soft outside. Serious structure.",
     detail: "A toasted, buttery crown that holds the whole idea together.",
     color: "#e8a34d",
+    image: "/images/burger/components/buns.png",
   },
   {
     id: "lettuce",
@@ -31,6 +33,7 @@ const ingredients: Ingredient[] = [
     note: "The fresh counterpoint.",
     detail: "Cold, crisp, and just loud enough to cut through the richness.",
     color: "#7e9f3d",
+    image: "/images/burger/components/lettuce.png",
   },
   {
     id: "onion",
@@ -38,6 +41,7 @@ const ingredients: Ingredient[] = [
     note: "A little aromatic lift.",
     detail: "Thin, savory layers that bring brightness and bite to the stack.",
     color: "#d4a6a0",
+    image: "/images/burger/components/onions.png",
   },
   {
     id: "cheese",
@@ -45,6 +49,7 @@ const ingredients: Ingredient[] = [
     note: "The golden glue.",
     detail: "A rich, savory melt that pulls every layer into focus.",
     color: "#f0c84b",
+    image: "/images/burger/components/cheese.png",
   },
   {
     id: "patty",
@@ -52,6 +57,7 @@ const ingredients: Ingredient[] = [
     note: "The reason we showed up.",
     detail: "Deep caramelized edges, a juicy middle, and no unnecessary fuss.",
     color: "#873e24",
+    image: "/images/burger/components/patty.png",
   },
 ];
 
@@ -295,6 +301,13 @@ export default function Home() {
               ref={(element) => { storyRefs.current[ingredient.id] = element; }}
             >
               <span className="story-dot" style={{ backgroundColor: ingredient.color }} />
+              <Image
+                className="ingredient-image"
+                src={ingredient.image}
+                alt={ingredient.name}
+                width={535}
+                height={399}
+              />
               <p className="eyebrow">{ingredient.note}</p>
               <h2>{ingredient.name}</h2>
               <p>{ingredient.detail}</p>
