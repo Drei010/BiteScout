@@ -1,3 +1,5 @@
+    
+
 # BiteScout
 
 A restaurant finder powered by AI. Ask for restaurants in natural language and get results from Foursquare Places.
@@ -73,6 +75,7 @@ npm run dev:all
 ```
 
 This runs:
+
 - **Backend** → `http://localhost:3000`
 - **Frontend** → `http://localhost:3001`
 
@@ -102,15 +105,15 @@ Results will appear in the chat with restaurant names, categories, and addresses
 
 ### Backend
 
-| Endpoint | Method | Params | Description |
-|----------|--------|--------|-------------|
-| `/api/execute` | GET | `message` (string), `code` (string) | Parses natural language via OpenAI and queries Foursquare |
+| Endpoint         | Method | Params                                  | Description                                               |
+| ---------------- | ------ | --------------------------------------- | --------------------------------------------------------- |
+| `/api/execute` | GET    | `message` (string), `code` (string) | Parses natural language via OpenAI and queries Foursquare |
 
 ### Frontend API Proxy
 
-| Endpoint | Method | Body | Description |
-|----------|--------|------|-------------|
-| `/api/search` | POST | `{ "message": "..." }` | Proxies to backend with access code injected server-side |
+| Endpoint        | Method | Body                     | Description                                              |
+| --------------- | ------ | ------------------------ | -------------------------------------------------------- |
+| `/api/search` | POST   | `{ "message": "..." }` | Proxies to backend with access code injected server-side |
 
 ## Troubleshooting
 
@@ -126,13 +129,13 @@ This project deploys as a single Vercel project (monorepo). The backend runs as 
 
 ### Environment Variables (set in Vercel Dashboard)
 
-| Variable | Value |
-|----------|-------|
-| `BACKEND_URL` | `https://bitescout-frontend.vercel.app/restaurantfinder` |
-| `FOURSQUARE_API_KEY` | Your Foursquare API key |
-| `OPENAI_API_KEY` | Your OpenAI API key |
-| `GROQ_API_KEY` | Your Groq API key |
-| `ACCESS_CODE` | Your access code |
+| Variable               | Value                                                      |
+| ---------------------- | ---------------------------------------------------------- |
+| `BACKEND_URL`        | `https://bitescout-frontend.vercel.app/restaurantfinder` |
+| `FOURSQUARE_API_KEY` | Your Foursquare API key                                    |
+| `OPENAI_API_KEY`     | Your OpenAI API key                                        |
+| `GROQ_API_KEY`       | Your Groq API key                                          |
+| `ACCESS_CODE`        | Your access code                                           |
 
 ### How it works
 
