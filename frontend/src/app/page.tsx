@@ -287,30 +287,38 @@ export default function Home() {
       <BurgerReveal />
 
       <section className="ingredients-layout" id="ingredients">
-        <div className="burger-sticky">
-          <div className="sticky-label"><span>Scroll the stack</span><span aria-hidden="true">↓</span></div>
-          <Burger />
-          <p className="active-caption">{ingredients.find((ingredient) => ingredient.id === activeIngredient)?.name}</p>
+        <div className="ingredients-display">
+          <p className="ingredients-kicker">The anatomy of a great bite</p>
+          <div className="display-image">
+            <Image key={activeIngredient} className="display-image-art" src={ingredients.find((ingredient) => ingredient.id === activeIngredient)?.image ?? ingredients[0].image} alt="" fill sizes="(max-width: 800px) 80vw, 35vw" />
+          </div>
+          <div className="display-copy">
+            <span>Now examining</span>
+            <h2>{ingredients.find((ingredient) => ingredient.id === activeIngredient)?.name}</h2>
+            <p>{ingredients.find((ingredient) => ingredient.id === activeIngredient)?.note}</p>
+          </div>
+          <div className="display-footer"><span>Scroll to deconstruct</span><span aria-hidden="true">↓</span></div>
         </div>
         <div className="ingredient-stories">
-          {ingredients.map((ingredient) => (
+          {ingredients.map((ingredient, index) => (
             <article
               className={`ingredient-story ${activeIngredient === ingredient.id ? "is-active" : ""}`}
               data-ingredient={ingredient.id}
               key={ingredient.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveIngredient(ingredient.id)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setActiveIngredient(ingredient.id);
+                }
+              }}
               ref={(element) => { storyRefs.current[ingredient.id] = element; }}
             >
-              <span className="story-dot" style={{ backgroundColor: ingredient.color }} />
-              <Image
-                className="ingredient-image"
-                src={ingredient.image}
-                alt={ingredient.name}
-                width={535}
-                height={399}
-              />
-              <p className="eyebrow">{ingredient.note}</p>
-              <h2>{ingredient.name}</h2>
-              <p>{ingredient.detail}</p>
+              <div className="story-meta"><span className="story-dot" style={{ backgroundColor: ingredient.color }} /><span>0{index + 1}</span></div>
+              <Image className="ingredient-image" src={ingredient.image} alt={ingredient.name} width={535} height={399} />
+              <div className="story-copy"><h3>{ingredient.name}</h3><p>{ingredient.detail}</p></div>
             </article>
           ))}
         </div>
