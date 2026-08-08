@@ -53,7 +53,8 @@ h1 { font-size: clamp(4rem, 7.4vw, 8.6rem); letter-spacing: -0.105em; line-heigh
 .note-top { left: 31px; top: 34px; }.note-bottom { bottom: 29px; right: 31px; }
 .marquee { border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); overflow: hidden; padding: 16px 0; transform: rotate(-1.4deg) scale(1.03); }
 .marquee-track { animation: marquee 22s linear infinite; font-size: clamp(1.1rem, 2.1vw, 2rem); font-weight: 700; letter-spacing: -.06em; min-width: max-content; white-space: nowrap; }
-.marquee-track span { color: var(--orange); display: inline-block; margin: 0 22px; }
+.marquee-slogan { color: var(--ink); display: inline-block; margin: 0 22px; }
+.marquee-slogan b { color: var(--orange); font-weight: 700; margin-left: 22px; }
 @keyframes marquee { to { transform: translateX(-33.333%); } }
 .intro-section, .finder-section { display: grid; gap: 8vw; grid-template-columns: 1.15fr .85fr; margin: 0 auto; max-width: 1250px; padding: 19vh 5vw; }
 .intro-section h2, .finder-intro h2 { font-size: clamp(3.2rem, 6vw, 6.8rem); letter-spacing: -.1em; line-height: .9; margin: 0; }

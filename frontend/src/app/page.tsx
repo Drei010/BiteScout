@@ -62,6 +62,13 @@ const ingredients: Ingredient[] = [
 ];
 
 const initialQuery = "best burgers near Makati";
+const marqueeSlogans = [
+  "Good food is closer than you think",
+  "Follow the craving",
+  "Less scrolling. More going out.",
+  "Your next great bite is nearby",
+  "Know what you want. Find where it lives.",
+];
 
 function Burger({
   priority = false,
@@ -269,7 +276,13 @@ export default function Home() {
       </section>
 
       <div className="marquee" aria-hidden="true">
-        <div className="marquee-track">Good food is closer than you think <span>✳</span> Good food is closer than you think <span>✳</span> Good food is closer than you think <span>✳</span></div>
+        <div className="marquee-track">
+          {[...marqueeSlogans, ...marqueeSlogans, ...marqueeSlogans].map((slogan, index) => (
+            <span className="marquee-slogan" key={`${slogan}-${index}`}>
+              {slogan} <b aria-hidden="true">✳</b>
+            </span>
+          ))}
+        </div>
       </div>
 
       <section className="intro-section">
