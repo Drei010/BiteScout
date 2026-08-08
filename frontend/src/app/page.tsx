@@ -192,11 +192,11 @@ function Finder() {
   return (
     <div className="finder-card">
       <div>
-        <p className="eyebrow">Ready when you are</p>
-        <h2>Tell us what sounds good.</h2>
+        <p className="eyebrow">Start with a craving</p>
+        <h2>Where should we scout?</h2>
       </div>
       <form className="finder-form" onSubmit={handleSubmit}>
-        <label className="sr-only" htmlFor="restaurant-search">Search for a restaurant</label>
+        <label htmlFor="restaurant-search">Search by craving, place, or mood</label>
         <input
           id="restaurant-search"
           value={query}
@@ -354,8 +354,8 @@ export default function Home() {
 
       <section className="finder-section" id="finder">
         <div className="finder-intro">
-          <p className="eyebrow">The next move</p>
-          <h2>Make tonight<br /><em>worth remembering.</em></h2>
+          <p className="eyebrow">Your next great bite</p>
+          <h2>Less searching.<br /><em>More going out.</em></h2>
         </div>
         <Finder />
       </section>
