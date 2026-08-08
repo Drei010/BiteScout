@@ -205,7 +205,19 @@ function Finder() {
 
 export default function Home() {
   const [activeIngredient, setActiveIngredient] = useState<Ingredient["id"]>("patty");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const storyRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("bitescout-theme");
+    if (savedTheme !== "dark" && savedTheme !== "light") return;
+    const frame = window.requestAnimationFrame(() => setTheme(savedTheme));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("bitescout-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -224,13 +236,16 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="site-shell">
+    <main className="site-shell" data-theme={theme}>
       <header className="site-header">
         <a className="wordmark" href="#top" aria-label="BiteScout home">BiteScout<span>.</span></a>
         <nav className="site-nav" aria-label="Main navigation">
           <a href="#ingredients">The stack</a>
           <a href="#finder">Find a spot</a>
         </nav>
+        <button className="theme-toggle" type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
+          <span aria-hidden="true">{theme === "light" ? "◐" : "○"}</span> {theme === "light" ? "Dark mode" : "Light mode"}
+        </button>
         <a className="header-cta" href="#finder">Start scouting <span aria-hidden="true">↗</span></a>
       </header>
 
