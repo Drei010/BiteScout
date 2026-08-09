@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "BiteScout — Find your next bite",
   description: "Turn a craving into a shortlist of places worth leaving the house for.",
+  icons: { icon: "/images/bitescout-logo.svg" },
 };
 
 export const viewport: Viewport = {

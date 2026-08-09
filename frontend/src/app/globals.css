@@ -18,8 +18,9 @@ button, input { font: inherit; }
 .site-shell[data-theme="light"] { color-scheme: light; }
 .site-shell[data-theme="dark"] { --button-bg: #f7f2e9; --button-text: #100e0d; --deep: #100e0d; --page: #100e0d; --surface: #1e1b18; --surface-alt: #29231f; --muted: rgba(247, 242, 233, .62); --line: rgba(247, 242, 233, .2); --lime: #52633f; --cream: #29231f; --ink: #f7f2e9; color-scheme: dark; }
 .site-header { align-items: center; display: flex; gap: 20px; justify-content: space-between; margin: 0 auto; max-width: 1440px; padding: 28px 5vw; }
-.wordmark { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.06em; }
-.wordmark span { color: var(--orange); }
+.wordmark { align-items: center; display: inline-flex; font-size: 1.1rem; font-weight: 800; gap: 10px; letter-spacing: -0.06em; }
+.wordmark img { flex: 0 0 auto; height: 32px; width: 32px; }
+.wordmark-name > span { color: var(--orange); }
 .site-nav { display: flex; gap: 34px; margin-left: auto; margin-right: 46px; }
 .site-nav a, .header-cta, .text-link, .site-footer a { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.02em; }
 .site-nav a { color: rgba(30, 27, 24, 0.62); transition: color 180ms ease; }

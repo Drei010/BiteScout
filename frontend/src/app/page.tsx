@@ -245,7 +245,10 @@ export default function Home() {
   return (
     <main className="site-shell" data-theme={theme}>
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="BiteScout home">BiteScout<span>.</span></a>
+        <a className="wordmark" href="#top" aria-label="BiteScout home">
+          <Image src="/images/bitescout-logo.svg" alt="" width={32} height={32} priority />
+          <span className="wordmark-name">BiteScout<span>.</span></span>
+        </a>
         <nav className="site-nav" aria-label="Main navigation">
           <a href="#ingredients">The stack</a>
           <a href="#finder">Find a spot</a>
